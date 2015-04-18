@@ -1,14 +1,14 @@
-pca <- function(mat, phe, logged=F) {
+pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   library(ggplot2)
   library(FField)
   
-  if (!logged) {
-    rwl <- log(mat+1)
-  } else {
-    rwl <- mat
+  if (is.null(pr)) {
+    if (is.null(rwl)) {
+      if (is.null(rw)) stop('At least one of rw, rwl, or pr needs to be presented.')
+      rwl <- log(rw + 1)
+    }
+    pr <- prcomp(t(rwl))
   }
-  
-  pr <- prcomp(t(rwl))
   
   pcLabel <- function(i)paste0('PC',i,' (variance explained = ', sprintf('%.2f', pr$sdev[i]/sum(pr$sdev)*100), '%)')
   
@@ -20,3 +20,5 @@ pca <- function(mat, phe, logged=F) {
     geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2) +
     labs(x=pcLabel(1),y=pcLabel(2))
 }
+
+
