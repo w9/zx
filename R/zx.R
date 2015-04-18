@@ -1,15 +1,21 @@
 pca <- function(mat, phe, logged=F) {
   library(ggplot2)
   
-  if (!logged) mat <- log(mat+1)
+  if (!logged) {
+    rwl <- log(mat+1)
+  } else {
+    rwl <- mat
+  }
   
-  pr <- prcomp(t(mat))
-  out$pr <- pr
-  ggdat <- data.frame(x=pr$x[,1], y=pr$x[,2], phe=phe)
-  out$plot <- ggplot() +
-    geom_point(aes(x=x, y=y, color=phe)) +
-    scale_color_brewer(type='qual', palette=6)
-  print(out$plot)
+  pr <- prcomp(t(rwl))
   
-  out
+  pcLabel <- function(i)paste0('PC',i,' (variance explained = ', sprintf('%.2f', pr$sdev[i]/sum(pr$sdev)*100), '%)')
+  
+  jittered <- FFieldPtRep(cbind(pr$x[,1], pr$x[,2]))
+  
+  ggdat <- data.frame(x=pr$x[,1], y=pr$x[,2], x.t=jittered$x, y.t=jittered$y)
+  ggplot(ggdat) +
+    geom_point(aes(x=x, y=y)) +
+    geom_text(aes(x=x.t, y=y.t, label=1:nrow(ggdat)), alpha=0.2) +
+    labs(x=pcLabel(1),y=pcLabel(2))
 }
