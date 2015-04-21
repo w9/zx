@@ -46,5 +46,7 @@ edgeR_ <- function(rw, phe) {
 
   cds <- DGEList(rw, group=phe)
   cds <- cds[rowSums(1e+06 * cds$counts/expandAsMatrix(cds$samples$lib.size, dim(cds)) > 1) >= 3, ]
+  cds <- calcNormFactors( cds )
+  cds <- estimateCommonDisp( cds )
   exactTest(cds)
 }
