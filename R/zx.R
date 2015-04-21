@@ -1,4 +1,4 @@
-pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
+.pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   library(ggplot2)
   library(FField)
   
@@ -30,4 +30,14 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   }
 }
 
+.nmf <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options="p32v3", seed=12345) {
+  library(NMF)
 
+  if (is.null(rwl)) {
+    if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
+    rwl <- log(rw + 1)
+  }
+
+  nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
+}
+  
