@@ -1,4 +1,4 @@
-.pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
+pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   library(ggplot2)
   library(FField)
   
@@ -30,7 +30,7 @@
   }
 }
 
-.nmf <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options="p32v3", seed=12345) {
+nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options="p32v3", seed=12345) {
   library(NMF)
 
   if (is.null(rwl)) {
