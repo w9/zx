@@ -15,10 +15,18 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   jittered <- FFieldPtRep(cbind(pr$x[,1], pr$x[,2]))
   
   ggdat <- data.frame(n=1:length(pr$x[,1]), x=pr$x[,1], y=pr$x[,2], x.t=jittered$x, y.t=jittered$y)
-  ggplot(ggdat) +
-    geom_point(aes(x=x, y=y)) +
-    geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2) +
-    labs(x=pcLabel(1),y=pcLabel(2))
+
+  if (is.null(phe)) {
+    ggplot(ggdat) +
+      geom_point(aes(x=x, y=y)) +
+      geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2) +
+      labs(x=pcLabel(1),y=pcLabel(2))
+  } else {
+    ggplot(ggdat) +
+      geom_point(aes(x=x, y=y, color=phe)) +
+      geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2) +
+      labs(x=pcLabel(1),y=pcLabel(2))
+  }
 }
 
 
