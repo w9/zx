@@ -41,3 +41,10 @@ nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options
   nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
 }
   
+edgeR_ <- function(rw, phe) {
+  library(edgeR)
+
+  cds <- DGEList(rw, group=phe)
+  cds <- cds[rowSums(1e+06 * cds$counts/expandAsMatrix(cds$samples$lib.size, dim(cds)) > 1) >= 3, ]
+  exactTest(cds)
+}
