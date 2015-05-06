@@ -1,3 +1,9 @@
+logTrans <- function(rw) {
+  library(reshape2)
+  min0 <- min(filter(melt(data.matrix(rw)), value>0)$value)
+  log(rw/min0+1)
+}
+
 pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   library(ggplot2)
   library(FField)
@@ -5,7 +11,7 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
   if (is.null(pr)) {
     if (is.null(rwl)) {
       if (is.null(rw)) stop('At least one of rw, rwl, or pr needs to be presented.')
-      rwl <- log(rw + 1)
+      rwl <- logTrans(rw)
     }
     pr <- prcomp(t(rwl))
   }
@@ -37,7 +43,7 @@ vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, 
   
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
-    rwl <- log(rw + 1)
+    rwl <- logTrans(rw)
   }
   
   ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
@@ -56,7 +62,7 @@ nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options
 
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
-    rwl <- log(rw + 1)
+    rwl <- logTrans(rw)
   }
 
   nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
