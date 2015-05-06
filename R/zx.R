@@ -23,27 +23,21 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   
   ggdat <- data.frame(n=1:length(pr$x[,1]), x=pr$x[,1], y=pr$x[,2], x.t=jittered$x, y.t=jittered$y)
   
-  ggplot(ggdat) +
+  p <- ggplot(ggdat)
     
-    if (is.null(phe)) {
-      geom_point(aes(x=x, y=y))
-    } else {
-      geom_point(aes(x=x, y=y, color=phe))
-    } +
-    
-    if (is.null(phe)) {
-      NULL
-    } else {
-      scale_color_brewer(type='qual', palette=6)
-    } +
-    
-    if (labels) {
-      geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2)
-    } else {
-      NULL
-    } +
-    
-    labs(x=pcLabel(1),y=pcLabel(2))
+  if (is.null(phe)) {
+    p <- p + geom_point(aes(x=x, y=y))
+  } else {
+    p <- p + geom_point(aes(x=x, y=y, color=phe)) + scale_color_brewer(type='qual', palette=6)
+  }
+  
+  if (labels) {
+    p <- p + geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2)
+  }
+  
+  p <- p + labs(x=pcLabel(1),y=pcLabel(2))
+  
+  p
 }
 
 vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
