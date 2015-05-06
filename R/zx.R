@@ -1,7 +1,7 @@
 logTrans <- function(rw) {
   library(reshape2)
-  min0 <- min(filter(melt(data.matrix(rw)), value>0)$value)
-  log(rw/min0+1)
+  min0 <- min(filter(melt(data.matrix(rw)), value > .Machine$double.eps)$value)
+  log(rw/min0 + 1)
 }
 
 pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
