@@ -53,9 +53,18 @@ vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, 
   ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
     filter(value>.Machine$double.eps)
   
-  ggplot(ggdat) +
-    geom_point(aes(x=sample, y=value, color=phe), position=position_jitter(width=jitter_width), alpha=point_alpha) +
-    geom_violin(aes(x=sample, y=value), alpha=violin_alpha)
+  p <- ggplot(ggdat)
+  
+  if (is.null(phe)) {
+    p <- p + geom_point(aes(x=sample, y=value), position=position_jitter(width=jitter_width), alpha=point_alpha)
+  } else {    
+    names(phe) <- colnames(rwl)
+    p <- p + geom_point(aes(x=sample, y=value, color=phe[ggdat$sample]), position=position_jitter(width=jitter_width), alpha=point_alpha)
+  }
+  
+  p <- p + geom_violin(aes(x=sample, y=value), alpha=violin_alpha)
+  
+  p
 }
 
 ########## PACKAGES ##########
