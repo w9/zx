@@ -28,7 +28,12 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
     if (is.null(phe)) {
       geom_point(aes(x=x, y=y))
     } else {
-      geom_point(aes(x=x, y=y, color=phe)) +
+      geom_point(aes(x=x, y=y, color=phe))
+    } +
+    
+    if (is.null(phe)) {
+      NULL
+    } else {
       scale_color_brewer(type='qual', palette=6)
     } +
     
