@@ -51,11 +51,13 @@ vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, j
   }
   
   if (is.null(phe)) {
-    ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample'))
+    ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
+      filter(value>=.Machine$double.eps)
     p <- ggplot(ggdat) + geom_point(aes(x=sample, y=value), position=position_jitter(width=jitter_width), alpha=point_alpha)
   } else {
     names(phe) <- colnames(rwl)
     ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
+      filter(value>=.Machine$double.eps) %>%
       mutate(phe=phe[sample])
     p <- ggplot(ggdat) + geom_point(aes(x=sample, y=value, color=phe), position=position_jitter(width=jitter_width), alpha=point_alpha)
   }
