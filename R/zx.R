@@ -1,10 +1,10 @@
 logTrans <- function(rw) {
   library(reshape2)
-  min0 <- min(filter(melt(data.matrix(rw)), value > .Machine$double.eps)$value)
+  min0 <- min(filter(melt(data.matrix(rw)), value >= .Machine$double.eps)$value)
   log(rw/min0 + 1)
 }
 
-pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
+pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   library(ggplot2)
   library(FField)
   
@@ -40,7 +40,7 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   p
 }
 
-vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
+vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
   library(ggplot2)
   library(reshape2)
   library(dplyr)
@@ -51,13 +51,11 @@ vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, 
   }
   
   if (is.null(phe)) {
-    ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
-      filter(value>.Machine$double.eps)
+    ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample'))
     p <- ggplot(ggdat) + geom_point(aes(x=sample, y=value), position=position_jitter(width=jitter_width), alpha=point_alpha)
   } else {
     names(phe) <- colnames(rwl)
     ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
-      filter(value>.Machine$double.eps) %>%
       mutate(phe=phe[sample])
     p <- ggplot(ggdat) + geom_point(aes(x=sample, y=value, color=phe), position=position_jitter(width=jitter_width), alpha=point_alpha)
   }
@@ -65,6 +63,37 @@ vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, 
   p <- p + geom_violin(aes(x=sample, y=value), alpha=violin_alpha)
   
   p
+}
+
+smoothDensity <- function(rwl=NULL, rw=NULL) {
+  library(ggplot2)
+  library(reshape2)
+  library(dplyr)
+  
+  if (is.null(rwl)) {
+    if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
+    rwl <- logTrans(rw)
+  }
+  
+  ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
+    filter(value>=.Machine$double.eps)
+  
+  ggplot(ggdat) +
+    geom_density(aes(color=sample, x=value))
+}
+
+zeroPercentageDistribution <- function(rw=NULL, jitter_width=0.05) {
+  library(ggplot2)
+  library(reshape2)
+  library(dplyr)
+  
+  ggdat <- melt(data.matrix(rw), varnames=c('gene', 'sample')) %>%
+    group_by(sample) %>%
+    summarize(pct_zero=mean(value==0))
+  
+  ggplot(ggdat) +
+    geom_point(aes(x=1, y=pct_zero), position=position_jitter(width=jitter_width), alpha=0.5) +
+    geom_violin(aes(x=1, y=pct_zero), alpha=0.5)
 }
 
 ########## PACKAGES ##########
