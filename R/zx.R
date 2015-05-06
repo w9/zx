@@ -22,7 +22,7 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
     labs(x=pcLabel(1),y=pcLabel(2))
 }
 
-vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0,4, jitter_width=0.4) {
+vj_ <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
   library(ggplot2)
   library(reshape2)
   library(dplyr)
