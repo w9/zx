@@ -13,6 +13,7 @@ pca_ <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL) {
       if (is.null(rw)) stop('At least one of rw, rwl, or pr needs to be presented.')
       rwl <- logTrans(rw)
     }
+    rwl <- rwl[apply(rwl, 1, function(x)any(x>0)),]
     pr <- prcomp(t(rwl))
   }
   
