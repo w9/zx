@@ -1,4 +1,15 @@
-logTrans <- function(rw) {
+scale_ <- function(v, min_v=0, max_v=1) {
+  (v-min(v))/(max(v)-min(v)) * (max_v-min_v) + min_v
+}
+
+get_slope <- function(x, y) lm(y ~ x, data.frame(x, y))$coefficients['x']
+
+rand_measure <- function(a, b) {
+  mean(apply(combn(1:length(b),2), 2, function(x)(b[x[1]]==b[x[2]])==(a[x[1]]==a[x[2]])))
+}
+
+
+log_trans <- function(rw) {
   library(reshape2)
   min0 <- min(filter(melt(data.matrix(rw)), value >= .Machine$double.eps)$value)
   log(rw/min0 + 1)
@@ -87,7 +98,7 @@ smoothDensity <- function(rwl=NULL, rw=NULL) {
     geom_density(aes(color=sample, x=value))
 }
 
-zeroPercentageDistribution <- function(rw=NULL, jitter_width=0.05) {
+zero_percentage_distribution <- function(rw=NULL, jitter_width=0.05) {
   library(ggplot2)
   library(reshape2)
   library(dplyr)
