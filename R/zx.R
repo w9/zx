@@ -1,15 +1,32 @@
+
 bind_tbls <- function(list_of_dfs, id_col_name='list_id') {
   col_names <- lapply(list_of_dfs, colnames)
   common_col_names <- Reduce(function(x, y)intersect(x, y), col_names)
   
   result_df <- data.frame(row.names=1:sum(sapply(list_of_dfs, nrow)))
   for (col_name in common_col_names) {
-    result_df[[col_name]] <- unlist(lapply(list_of_dfs, function(df)df[[col_name]]))
+    message(col_name)
+    
+    new_col <- NULL
+    for (df in list_of_dfs) {
+      if (class(df[[col_name]])=='factor') {
+        message(col_name, '  is factor, convert to character')
+        new_col <- c(new_col, as.character(df[[col_name]]))
+      } else {
+        new_col <- c(new_col, df[[col_name]])
+      }
+    }
+    result_df[[col_name]] <- new_col 
   }
   
   list_names <- names(list_of_dfs)
   if (!is.null(list_names)) {
-    result_df[[id_col_name]] <- unlist(lapply(list_names, function(n)rep(n, nrow(list_of_dfs[[n]]))))
+    message('sadfasf')
+    new_col <- NULL
+    for (list_name in list_names) {
+      new_col <- c(new_col, rep(list_name, nrow(list_of_dfs[[list_name]])))
+    }
+    result_df[[id_col_name]] <- new_col
   }
   
   result_df
