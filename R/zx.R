@@ -1,3 +1,22 @@
+bind_tbls <- function(list_of_dfs, id_col_name='list_id') {
+  col_names <- lapply(list_of_dfs, colnames)
+  common_col_names <- Reduce(function(x, y)intersect(x, y), col_names)
+  
+  result_df <- data.frame(row.names=1:sum(sapply(list_of_dfs, nrow)))
+  for (col_name in common_col_names) {
+    result_df[[col_name]] <- unlist(lapply(list_of_dfs, function(df)df[[col_name]]))
+  }
+  
+  list_names <- names(list_of_dfs)
+  if (!is.null(list_names)) {
+    result_df[[id_col_name]] <- unlist(lapply(list_names, function(n)rep(n, nrow(list_of_dfs[[n]]))))
+  }
+  
+  result_df
+}
+
+
+
 scale_ <- function(v, min_v=0, max_v=1) {
   (v-min(v))/(max(v)-min(v)) * (max_v-min_v) + min_v
 }
