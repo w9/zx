@@ -1,3 +1,9 @@
+hash_vec <- function(hash_table, vec) {
+    out_vec <- vector(length = length(vec))
+  for (i in 1:length(vec)) {
+        out_vec[i] <- hash_table[[vec[i]]]
+    }
+}
 
 bind_tbls <- function(list_of_dfs, id_col_name='list_id') {
   col_names <- lapply(list_of_dfs, colnames)
