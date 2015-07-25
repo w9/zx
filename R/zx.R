@@ -52,11 +52,12 @@ rand_measure <- function(a, b) {
 }
 
 
-log_trans <- function(rw) {
-  library(reshape2)
-  min0 <- min(filter(melt(data.matrix(rw)), value >= .Machine$double.eps)$value)
-  log(rw/min0 + 1)
+log_trans <- function (rw) 
+{
+    min0 <- min(setdiff(rw, 0))
+    log(rw/min0 + 1)
 }
+
 
 pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   library(ggplot2)
