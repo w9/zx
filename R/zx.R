@@ -54,8 +54,8 @@ rand_measure <- function(a, b) {
 
 log_trans <- function (rw) 
 {
-    min0 <- min(setdiff(rw, 0))
-    log(rw/min0 + 1)
+  rw[rw == 0] <- NaN
+  rw <- log(rw)
 }
 
 
