@@ -66,7 +66,7 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   if (is.null(pr)) {
     if (is.null(rwl)) {
       if (is.null(rw)) stop('At least one of rw, rwl, or pr needs to be presented.')
-      rwl <- logTrans(rw)
+      rwl <- log_trans(rw)
     }
     rwl <- rwl[apply(rwl, 1, function(x)any(x>0)),]
     pr <- prcomp(t(rwl))
@@ -102,7 +102,7 @@ vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, j
   
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
-    rwl <- logTrans(rw)
+    rwl <- log_trans(rw)
   }
   
   if (is.null(phe)) {
@@ -132,7 +132,7 @@ smoothDensity <- function(rwl=NULL, rw=NULL) {
   
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
-    rwl <- logTrans(rw)
+    rwl <- log_trans(rw)
   }
   
   ggdat <- melt(data.matrix(rwl), varnames=c('gene', 'sample')) %>%
@@ -164,7 +164,7 @@ nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options
 
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
-    rwl <- logTrans(rw)
+    rwl <- log_trans(rw)
   }
 
   nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
