@@ -61,7 +61,6 @@ log_trans <- function (rw)
 
 pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   library(ggplot2)
-  library(FField)
   
   if (is.null(pr)) {
     if (is.null(rwl)) {
@@ -74,9 +73,7 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   
   pcLabel <- function(i)paste0('PC',i,' (variance explained = ', sprintf('%.2f', pr$sdev[i]/sum(pr$sdev)*100), '%)')
   
-  jittered <- FFieldPtRep(cbind(pr$x[,1], pr$x[,2]))
-  
-  ggdat <- data.frame(n=1:length(pr$x[,1]), x=pr$x[,1], y=pr$x[,2], x.t=jittered$x, y.t=jittered$y)
+  ggdat <- data.frame(n=1:length(pr$x[,1]), x=pr$x[,1], y=pr$x[,2])
   
   p <- ggplot(ggdat)
     
@@ -87,7 +84,9 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   }
   
   if (labels) {
-    p <- p + geom_text(aes(x=x.t, y=y.t, label=n), alpha=0.2)
+    library(FField)
+    jittered <- FFieldPtRep(cbind(pr$x[,1], pr$x[,2]))
+    p <- p + geom_text(aes(x=jittered$x, y=jittered$y, label=n), alpha=0.2)
   }
   
   p <- p + labs(x=pcLabel(1),y=pcLabel(2))
