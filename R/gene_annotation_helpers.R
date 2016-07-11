@@ -8,7 +8,7 @@
 #' @import AnnotationDbi
 #' @import dplyr
 gene_annotation <-
-  function(genes_, organism_, format_='markdown') {
+  function(genes_, organism_, format_='markdown', use_description_=F) {
     gene_ranking <- data_frame(symbol=genes_, rank=1:length(genes_))
     symbol2eg <- switch(organism_,
                         mouse = org.Mm.eg.db::org.Mm.egSYMBOL2EG,
@@ -27,9 +27,14 @@ gene_annotation <-
       gene_summary <- record %>% xml_find_all('./Summary') %>% xml_contents %>% as.character
       if (length(gene_summary) > 0) {
         gene_annotation <- gene_annotation %>% add_row(symbol=gene_symbol, summary=gene_summary)
+      } else if (use_description_) {
+        gene_description <- record %>% xml_find_all('./Description') %>% xml_contents %>% as.character
+        if (length(gene_description) > 0) {
+          gene_annotation <- gene_annotation %>% add_row(symbol=gene_symbol, summary=sprintf('Description: %s', gene_description))
+        }
       }
     }
-    gene_annotation <-  gene_annotation %>% left_join(gene_ranking, by='symbol')
+    gene_annotation <-  gene_annotation %>% left_join(gene_ranking, by='symbol') %>% select(rank, symbol, summary)
 
     if (format_ == 'data_frame') {
       gene_annotation
