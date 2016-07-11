@@ -6,8 +6,8 @@
 gene_annotation <-
   function(genes_, organism_, format_='markdown') {
     symbol2eg <- switch(organism_,
-                        mouse = org.Hs.eg.db::org.Mm.egSYMBOL2EG,
-                        human = org.Mm.eg.db::org.Hs.egSYMBOL2EG,
+                        mouse = org.Mm.eg.db::org.Mm.egSYMBOL2EG,
+                        human = org.Hs.eg.db::org.Hs.egSYMBOL2EG,
                         stop(sprintf('Error: Unrecognized organism %s.', organism_)))
 
     mapped_genes <- intersect(genes_, AnnotationDbi::mappedkeys(symbol2eg))
