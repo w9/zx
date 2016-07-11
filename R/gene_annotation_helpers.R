@@ -3,6 +3,8 @@
 #' @export
 #' @import dplyr
 #' @import xml2
+#' @import org.Mm.eg.db
+#' @import org.Hs.eg.db
 gene_annotation <-
   function(genes_, organism_, format_='markdown') {
     symbol2eg <- switch(organism_,
