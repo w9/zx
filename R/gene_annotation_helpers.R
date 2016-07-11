@@ -30,7 +30,7 @@ gene_annotation <-
       } else if (use_description_) {
         gene_description <- record %>% xml_find_all('./Description') %>% xml_contents %>% as.character
         if (length(gene_description) > 0) {
-          gene_annotation <- gene_annotation %>% add_row(symbol=gene_symbol, summary=sprintf('Description: %s', gene_description))
+          gene_annotation <- gene_annotation %>% add_row(symbol=gene_symbol, summary=gene_description)
         }
       }
     }
