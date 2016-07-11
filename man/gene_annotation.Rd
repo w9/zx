@@ -4,7 +4,8 @@
 \alias{gene_annotation}
 \title{Anntate genes using NCBI gene summary}
 \usage{
-gene_annotation(genes_, organism_, format_ = "markdown")
+gene_annotation(genes_, organism_, format_ = "markdown",
+  use_description_ = F)
 }
 \description{
 Anntate genes using NCBI gene summary
