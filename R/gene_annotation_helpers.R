@@ -3,8 +3,6 @@
 #' @export
 #' @import dplyr
 #' @import xml2
-#' @import org.Mm.eg.db
-#' @import org.Hs.eg.db
 gene_annotation <-
   function(genes_, organism_, format_='markdown') {
     symbol2eg <- switch(organism_,
@@ -13,7 +11,7 @@ gene_annotation <-
                         stop(sprintf('Error: Unrecognized organism %s.', organism_)))
 
     mapped_genes <- intersect(genes_, AnnotationDbi::mappedkeys(symbol2eg))
-    genes_entrez <- symbol2eg[mapped_genes] %>% as.list %>% unlist
+    genes_entrez <- symbol2eg[mapped_genes] %>% AnnotationDbi::as.list %>% unlist
 
     gene_summary_xml <- paste0(genes_entrez, collapse=',') %>%
       sprintf('http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=gene&id=%s', .) %>% GET
