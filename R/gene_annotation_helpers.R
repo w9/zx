@@ -3,16 +3,14 @@
 #' @export
 #' @import dplyr
 #' @import xml2
-#' @import org.Hs.eg.db
-#' @import org.Mm.eg.db
 gene_annotation <-
-  function(genes_, organism_='mouse', format_='markdown') {
+  function(genes_, organism_, format_='markdown') {
     symbol2eg <- switch(organism_,
-                        mouse = org.Mm.eg.db,
-                        human = org.Hs.eg.db,
+                        mouse = org.Hs.eg.db::org.Mm.egSYMBOL2EG,
+                        human = org.Mm.eg.db::org.Hs.egSYMBOL2EG,
                         stop(sprintf('Error: Unrecognized organism %s.', organism_)))
 
-    mapped_genes <- intersect(genes_, mappedkeys(symbol2eg))
+    mapped_genes <- intersect(genes_, AnnotationDbi::mappedkeys(symbol2eg))
     genes_entrez <- symbol2eg[mapped_genes] %>% as.list %>% unlist
 
     gene_summary_xml <- paste0(genes_entrez, collapse=',') %>%

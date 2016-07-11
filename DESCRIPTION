@@ -1,10 +1,24 @@
 Package: zx
 Type: Package
-Title: What the package does (short line)
+Title: Xun Zhu's useful functions
 Version: 1.0
 Date: 2015-04-13
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
+Author: Xun Zhu
+Maintainer: <zhuxun2@gmail.com>
+Description:
+  Functions that I use in daily basis and am not sure
+  where to put.
+Imports:
+  ggplot2,
+  reshape2,
+  tidyr,
+  dplyr,
+  tibble,
+  xml2,
+  AnnotationDbi,
+  org.Hs.eg.db,
+  org.Mm.eg.db,
+  rmarkdown,
+  rstudioapi
 License: What license is it under?
 RoxygenNote: 5.0.1
