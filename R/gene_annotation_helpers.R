@@ -1,5 +1,6 @@
 #' Anntate genes using NCBI gene summary
 #'
+#' @export
 #' @import dplyr
 #' @import xml2
 #' @import org.Hs.eg.db
