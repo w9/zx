@@ -2,7 +2,7 @@
 #'
 #' @export
 #' @import xml2
-#' @import httpr
+#' @import httr
 #' @import org.Mm.eg.db
 #' @import org.Hs.eg.db
 #' @import AnnotationDbi

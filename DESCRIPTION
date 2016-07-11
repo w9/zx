@@ -9,6 +9,7 @@ Description:
   Functions that I use in daily basis and am not sure
   where to put.
 Imports:
+  httr,
   ggplot2,
   reshape2,
   tidyr,

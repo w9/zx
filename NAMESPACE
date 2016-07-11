@@ -3,7 +3,7 @@
 export(gene_annotation)
 import(AnnotationDbi)
 import(dplyr)
-import(httpr)
+import(httr)
 import(org.Hs.eg.db)
 import(org.Mm.eg.db)
 import(xml2)
