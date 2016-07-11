@@ -9,6 +9,7 @@
 #' @import dplyr
 gene_annotation <-
   function(genes_, organism_, format_='markdown') {
+    gene_ranking <- data_frame(symbol=genes_, rank=1:length(genes_))
     symbol2eg <- switch(organism_,
                         mouse = org.Mm.eg.db::org.Mm.egSYMBOL2EG,
                         human = org.Hs.eg.db::org.Hs.egSYMBOL2EG,
@@ -28,6 +29,7 @@ gene_annotation <-
         gene_annotation <- gene_annotation %>% add_row(symbol=gene_symbol, summary=gene_summary)
       }
     }
+    gene_annotation <-  gene_annotation %>% left_join(gene_ranking, by='symbol')
 
     if (format_ == 'data_frame') {
       gene_annotation
@@ -35,7 +37,7 @@ gene_annotation <-
       temp_prefix <- tempfile()
       md_file <- sprintf('%s.md', temp_prefix)
       html_file <- sprintf('%s.html', temp_prefix)
-      paste0('# **', 1:nrow(gene_annotation), '** ', gene_annotation$symbol, '\n\n', gene_annotation$summary, '\n\n') %>% write(md_file)
+      paste0('# **', gene_annotation$rank, '** ', gene_annotation$symbol, '\n\n', gene_annotation$summary, '\n\n') %>% write(md_file)
       rmarkdown::render(md_file)
       rstudioapi::viewer(html_file)
     }
