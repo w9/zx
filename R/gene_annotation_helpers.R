@@ -1,11 +1,12 @@
 #' Anntate genes using NCBI gene summary
 #'
 #' @export
-#' @import dplyr
 #' @import xml2
+#' @import httpr
 #' @import org.Mm.eg.db
 #' @import org.Hs.eg.db
 #' @import AnnotationDbi
+#' @import dplyr
 gene_annotation <-
   function(genes_, organism_, format_='markdown') {
     symbol2eg <- switch(organism_,
