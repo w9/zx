@@ -1,3 +1,4 @@
+#' @export
 hash_vec <- function(hash_table, vec) {
   out_vec <- vector(length = length(vec))
   for (i in 1:length(vec)) {
@@ -6,6 +7,8 @@ hash_vec <- function(hash_table, vec) {
   out_vec
 }
 
+
+#' @export
 bind_tbls <- function(list_of_dfs, id_col_name='list_id') {
   col_names <- lapply(list_of_dfs, colnames)
   common_col_names <- Reduce(function(x, y)intersect(x, y), col_names)
@@ -41,24 +44,22 @@ bind_tbls <- function(list_of_dfs, id_col_name='list_id') {
 
 
 
+#' @export
 scale_ <- function(v, min_v=0, max_v=1) {
   (v-min(v))/(max(v)-min(v)) * (max_v-min_v) + min_v
 }
 
+#' @export
 get_slope <- function(x, y) lm(y ~ x, data.frame(x, y))$coefficients['x']
 
+#' @export
 rand_measure <- function(a, b) {
   mean(apply(combn(1:length(b),2), 2, function(x)(b[x[1]]==b[x[2]])==(a[x[1]]==a[x[2]])))
 }
 
 
-log_trans <- function (rw) 
-{
-  rw[rw == 0] <- NaN
-  rw <- log(rw)
-}
 
-
+#' @export
 pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   library(ggplot2)
   
@@ -94,6 +95,7 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   p
 }
 
+#' @export
 vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
   library(ggplot2)
   library(reshape2)
@@ -124,6 +126,8 @@ vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, j
   p
 }
 
+
+#' @export
 smoothDensity <- function(rwl=NULL, rw=NULL) {
   library(ggplot2)
   library(reshape2)
@@ -141,6 +145,8 @@ smoothDensity <- function(rwl=NULL, rw=NULL) {
     geom_density(aes(color=sample, x=value))
 }
 
+
+#' @export
 zero_percentage_distribution <- function(rw=NULL, jitter_width=0.05) {
   library(ggplot2)
   library(reshape2)
@@ -158,6 +164,8 @@ zero_percentage_distribution <- function(rw=NULL, jitter_width=0.05) {
 ########## PACKAGES ##########
 
 
+
+#' @export
 nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options="p32v3", seed=12345) {
   library(NMF)
 
@@ -169,6 +177,8 @@ nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options
   nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
 }
   
+
+#' @export
 edgeR_ <- function(rw, phe) {
   library(edgeR)
 
