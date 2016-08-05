@@ -1,3 +1,15 @@
+#' @import dplyr
+#' @export
+sort_row <- function(x, decreasing=T) {
+  x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
+}
+
+#' @import dplyr
+#' @export
+sort_col <- function(x, decreasing=T) {
+  x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
+}
+
 #' @export
 hash_vec <- function(hash_table, vec) {
   out_vec <- vector(length = length(vec))
