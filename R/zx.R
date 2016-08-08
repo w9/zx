@@ -1,9 +1,9 @@
 #' @import rstudioapi
 #' @export
-browse <- function(x, use_viewer=F) {
+browse <- function(x, use_viewer=F, ...) {
 	temp_f <- sprintf('%s.txt', tempfile())
 	sink(temp_f)
-	print(x)
+	print(x, ...)
 	sink()
 	if (use_viewer) {
 		viewer(temp_f)
