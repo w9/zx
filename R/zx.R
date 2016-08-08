@@ -7,7 +7,7 @@ sink_reset <- function(){
 
 #' @import rstudioapi
 #' @export
-browse <- function(x, use_viewer=F, effect=F...) {
+browse <- function(x, use_viewer=F, effect=F, ...) {
 	temp_f <- sprintf('%s.txt', tempfile())
 	sink(temp_f)
 
