@@ -1,3 +1,10 @@
+#' @export
+sink_reset <- function(){
+    for(i in seq_len(sink.number())){
+        sink(NULL)
+    }
+}
+
 #' @import rstudioapi
 #' @export
 browse <- function(x, use_viewer=F, effect=F...) {
@@ -9,7 +16,7 @@ browse <- function(x, use_viewer=F, effect=F...) {
 	} else {
 		print(x, ...)
 	}
-	sink()
+	sink_reset()
 
 	if (use_viewer) {
 		viewer(temp_f)
