@@ -8,7 +8,7 @@
 #' @import AnnotationDbi
 #' @import dplyr
 gene_annotation <-
-  function(genes_, organism_, md_filename_=NULL, html_filename_=NULL, verbose_level_=1, use_viewer=F) {
+  function(genes_, organism_, verbose_level_=1, markdown=T, md_filename_=NULL, html_filename_=NULL, use_viewer=F) {
     gene_ranking <- data_frame(symbol=genes_, rank=1:length(genes_))
     symbol2eg <- switch(organism_,
                         mouse = org.Mm.eg.db::org.Mm.egSYMBOL2EG,
@@ -37,17 +37,23 @@ gene_annotation <-
     }
     gene_annotation <-  gene_annotation %>% left_join(gene_ranking, by='symbol') %>% select(rank, symbol, full_name, summary)
 
-    temp_prefix <- tempfile()
-    md_filename   <- ifelse(is.null(md_filename_  ), sprintf('%s.md'  , temp_prefix), md_filename_  )
-    html_filename <- ifelse(is.null(html_filename_), sprintf('%s.html', temp_prefix), html_filename_)
+    if (markdown) {
+      temp_prefix <- tempfile()
+      md_filename   <- ifelse(is.null(md_filename_  ), sprintf('%s.md'  , temp_prefix), md_filename_  )
+      html_filename <- ifelse(is.null(html_filename_), sprintf('%s.html', temp_prefix), html_filename_)
 
-    if (verbose_level_ >= 2) message(sprintf('md_filename = %s', md_filename))
-    if (verbose_level_ >= 2) message(sprintf('html_filename = %s', html_filename))
+      if (verbose_level_ >= 2) message(sprintf('md_filename = %s', md_filename))
+      if (verbose_level_ >= 2) message(sprintf('html_filename = %s', html_filename))
 
-    with(gene_annotation, paste0('# **', rank, '** ', symbol, '\n\n***', full_name, '***\n\n', summary, '\n\n')) %>% write(md_filename)
+      with(gene_annotation, paste0('# **', rank, '** ', symbol, '\n\n***', full_name, '***\n\n', summary, '\n\n')) %>% write(md_filename)
 
-    rmarkdown::render(md_filename, output_file=basename(html_filename), output_dir=dirname(html_filename), quiet=ifelse(verbose_level_ >= 3, F, T))
-    if (use_viewer) rstudioapi::viewer(html_filename)
+      rmarkdown::render(md_filename, output_file=basename(html_filename), output_dir=dirname(html_filename), quiet=ifelse(verbose_level_ >= 3, F, T))
+      if (use_viewer) {
+        rstudioapi::viewer(html_filename)
+      } else {
+        browseURL(html_filename)
+      }
+    }
 
     gene_annotation
   }
