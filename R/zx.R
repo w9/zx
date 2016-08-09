@@ -26,8 +26,20 @@ browse <- function(x, use_viewer=F, effect=F, ...) {
 }
 
 #' @export
+print_head <- function(x, n=5) {
+	print(head(x, n))
+	x
+}
+
+#' @export
+print_corner <- function(x, n=5, m=10) {
+	print(corner(x, n, m))
+	x
+}
+
+#' @export
 corner <- function(x, n=5, m=10) {
-	print(x[1:n, 1:m])
+	x[1:n, 1:m]
 }
 
 

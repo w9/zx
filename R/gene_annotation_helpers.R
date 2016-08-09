@@ -8,7 +8,7 @@
 #' @import AnnotationDbi
 #' @import dplyr
 gene_annotation <-
-  function(genes_, organism_, md_filename_=NULL, html_filename_=NULL, verbose_level_=1, show_in_viewer_=T) {
+  function(genes_, organism_, md_filename_=NULL, html_filename_=NULL, verbose_level_=1, use_viewer=F) {
     gene_ranking <- data_frame(symbol=genes_, rank=1:length(genes_))
     symbol2eg <- switch(organism_,
                         mouse = org.Mm.eg.db::org.Mm.egSYMBOL2EG,
@@ -47,7 +47,7 @@ gene_annotation <-
     with(gene_annotation, paste0('# **', rank, '** ', symbol, '\n\n***', full_name, '***\n\n', summary, '\n\n')) %>% write(md_filename)
 
     rmarkdown::render(md_filename, output_file=basename(html_filename), output_dir=dirname(html_filename), quiet=ifelse(verbose_level_ >= 3, F, T))
-    if (show_in_viewer_) rstudioapi::viewer(html_filename)
+    if (use_viewer) rstudioapi::viewer(html_filename)
 
     gene_annotation
   }

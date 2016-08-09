@@ -5,7 +5,7 @@
 \title{Anntate genes using NCBI gene summary}
 \usage{
 gene_annotation(genes_, organism_, md_filename_ = NULL,
-  html_filename_ = NULL, verbose_level_ = 1, show_in_viewer_ = T)
+  html_filename_ = NULL, verbose_level_ = 1, use_viewer = F)
 }
 \description{
 Anntate genes using NCBI gene summary

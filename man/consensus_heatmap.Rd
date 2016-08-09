@@ -4,13 +4,7 @@
 \alias{consensus_heatmap}
 \title{Generate Consensus Heatmap}
 \usage{
-consensus_heatmap(consensus_mat_, phe_ = NULL)
-}
-\arguments{
-\item{consensus_mat_}{The consensus matrix. The row and column names of this matrix will be used in the plot.
-Example: \code{NMF::consensus(...)}.}
-
-\item{phe_}{Grouping vector.}
+consensus_heatmap(consensus_mat, phe = NULL, sample_names = NULL)
 }
 \description{
 Generate Consensus Heatmap
