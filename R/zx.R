@@ -49,7 +49,7 @@ sort_row <- function(x, by=NULL, decreasing=T) {
 	if (is.null(by)) {
 		x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
 	} else {
-		x[x[,by] %>% order,]
+		x[x[,by] %>% order(decreasing=decreasing),]
 	}
 }
 
@@ -59,7 +59,7 @@ sort_col <- function(x, decreasing=T) {
 	if (is.null(by)) {
 		x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
 	} else {
-		x[, x[by,] %>% order]
+		x[, x[by,] %>% order(decreasing=decreasing)]
 	}
 }
 
