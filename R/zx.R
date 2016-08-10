@@ -45,14 +45,22 @@ corner <- function(x, n=5, m=10) {
 
 #' @import dplyr
 #' @export
-sort_row <- function(x, decreasing=T) {
-  x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
+sort_row <- function(x, by=NULL, decreasing=T) {
+	if (is.null(by)) {
+		x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
+	} else {
+		x[x[,by] %>% order,]
+	}
 }
 
 #' @import dplyr
 #' @export
 sort_col <- function(x, decreasing=T) {
-  x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
+	if (is.null(by)) {
+		x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
+	} else {
+		x[, x[by,] %>% order]
+	}
 }
 
 #' @export
