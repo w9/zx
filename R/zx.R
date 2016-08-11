@@ -1,3 +1,20 @@
+#' @import magrittr
+#' @import stringr
+#' @export
+detach_all_packages <- function() {
+  basic_packages <- 
+		c("package:stats",
+			"package:graphics",
+			"package:grDevices",
+			"package:utils",
+			"package:datasets",
+			"package:methods",
+			"package:base")
+
+  search() %>% str_subset('^package:') %>% setdiff(basic_packages) %>% walk(~ detach(., character.only=T))
+}
+
+
 #' @export
 sink_reset <- function(){
     for(i in seq_len(sink.number())){
