@@ -6,7 +6,7 @@ Date: 2015-04-13
 Author: Xun Zhu
 Maintainer: <zhuxun2@gmail.com>
 Description:
-  Functions that I use in daily basis and am not sure
+  Functions that I use in daily basis but am not sure
   where to put.
 Imports:
   httr,
