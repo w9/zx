@@ -54,31 +54,6 @@ print_corner <- function(x, n=5, m=10) {
 	x
 }
 
-#' @export
-corner <- function(x, n=5, m=10) {
-	x[1:n, 1:m]
-}
-
-
-#' @import dplyr
-#' @export
-sort_row <- function(x, by=NULL, decreasing=T) {
-	if (is.null(by)) {
-		x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
-	} else {
-		x[x[,by] %>% order(decreasing=decreasing),]
-	}
-}
-
-#' @import dplyr
-#' @export
-sort_col <- function(x, decreasing=T) {
-	if (is.null(by)) {
-		x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
-	} else {
-		x[, x[by,] %>% order(decreasing=decreasing)]
-	}
-}
 
 #' @export
 apply_if <- function(x, p, f) {
