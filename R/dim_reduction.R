@@ -24,9 +24,9 @@ dim_reduction <-
 
   if (what == 'all' || 'pca_scale' %in% what) {
     message('* doing pca_scale ... ')
-    non_zero_rows <- apply(x, 1, function(x)var(x)!=0)
-    if (sum(non_zero_rows) < nrow(x)) message(sprintf('%d of %d rows have variance > 0.', sum(non_zero_rows), nrow(x)))
-    pr <- prcomp(x[non_zero_rows,], scale.=T)$x
+    non_zeros <- apply(x, 2, function(x)var(x)!=0)
+    if (sum(non_zeros) < ncol(x)) message(sprintf('%d of %d features have variance > 0.', sum(non_zeros), ncol(x)))
+    pr <- prcomp(x[,non_zeros], scale.=T)$x
     output <- output %>% mutate(pc1=pr[,1], pc2=pr[,2], pc3=pr[,3])
   }
 
