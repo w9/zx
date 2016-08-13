@@ -3,8 +3,8 @@
 #' @export
 dim_reduction <-
   function(x,
-           what='pca',
-					 zp=F,
+           what='all',
+					 zp=T,
            transpose=T,
            id_col_name='id',
            additional=NULL) {
