@@ -23,8 +23,8 @@ dim_reduction <-
   }
 
   if (what == 'all' || 'pca_scale' %in% what) {
-    message('* doing pca ... ')
-    pr <- prcomp(x, scale.=T)$x
+    message('* doing pca_scale ... ')
+    pr <- prcomp(x[apply(x, 1, function(x)var(x)==0),], scale.=T)$x
     output <- output %>% mutate(pc1=pr[,1], pc2=pr[,2], pc3=pr[,3])
   }
 
