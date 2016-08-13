@@ -1,3 +1,9 @@
+#' @export
+affix <- function(x, a) {
+  x[[length(x)+1]] <- a
+  x
+}
+
 #' @import magrittr
 #' @import stringr
 #' @export
