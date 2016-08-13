@@ -27,7 +27,7 @@ dim_reduction <-
     non_zeros <- apply(x, 2, function(x)var(x)!=0)
     if (sum(non_zeros) < ncol(x)) message(sprintf('%d of %d features have variance > 0.', sum(non_zeros), ncol(x)))
     pr <- prcomp(x[,non_zeros], scale.=T)$x
-    output <- output %>% mutate(pc1=pr[,1], pc2=pr[,2], pc3=pr[,3])
+    output <- output %>% mutate(pc_scale1=pr[,1], pc_scale2=pr[,2], pc_scale3=pr[,3])
   }
 
   if (what == 'all' || 'mds_cor' %in% what) {
@@ -55,19 +55,23 @@ dim_reduction <-
   if (zp) {
     zp_output <- zp(output)
 
-		if ('pca' %in% what) {
+		if (what == 'all' || 'pca' %in% what) {
       zp_output <- zp_output %>% zp_coord(pc1, pc2, pc3)
 		}
 
-		if ('mds_cor' %in% what) {
+		if (what == 'all' || 'pca_scale' %in% what) {
+      zp_output <- zp_output %>% zp_coord(pc_scale1, pc_scale2, pc_scale3)
+		}
+
+		if (what == 'all' || 'mds_cor' %in% what) {
       zp_output <- zp_output %>% zp_coord(mds1, mds2, mds3)
 		}
 
-		if ('tsne' %in% what) {
+		if (what == 'all' || 'tsne' %in% what) {
       zp_output <- zp_output %>% zp_coord(tsne1, tsne2, tsne3)
 		}
 
-		if ('tsne_cor' %in% what) {
+		if (what == 'all' || 'tsne_cor' %in% what) {
       zp_output <- zp_output %>% zp_coord(tsne_cor1, tsne_cor2, tsne_cor3)
 		}
 
