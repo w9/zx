@@ -8,6 +8,8 @@ dim_reduction <-
            transpose=T,
            id_col_name='id',
            additional=NULL) {
+  title <- sprintf('DR of %s (%s)', deparse(substitute(x)))
+
   if (transpose) { x <- t(x) }
 
   output <- data_frame(row_num=1:nrow(x))
@@ -53,7 +55,7 @@ dim_reduction <-
   }
 
   if (zp) {
-    zp_output <- zp(output)
+    zp_output <- zp(output, title=title)
 
 		if (what == 'all' || 'pca' %in% what) {
       zp_output <- zp_output %>% zp_coord(pc1, pc2, pc3)
