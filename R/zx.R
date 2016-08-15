@@ -1,4 +1,19 @@
 #' @export
+overwrite_list <- function(old, new, recursive=F) {
+  for (n in names(old)) {
+    if (recursive && is.list(old[[n]]) && is.list(new[[n]])) {
+      new[[n]] <- overwrite_list(old[[n]], new[[n]], recursive=T)
+    } else {
+      if (is.null(new[[n]])) {
+        new[[n]] <- old[[n]]
+      }
+    }
+  }
+
+  new
+}
+
+#' @export
 affix <- function(x, a) {
   x[[length(x)+1]] <- a
   x

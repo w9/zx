@@ -8,7 +8,7 @@ dim_reduction <-
            transpose=T,
            id_col_name='id',
            additional=NULL) {
-  title <- sprintf('DR of %s (%s)', deparse(substitute(x)))
+  title <- sprintf('DR of %s (%s)', deparse(substitute(x)), what)
 
   if (transpose) { x <- t(x) }
 
