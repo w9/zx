@@ -57,7 +57,6 @@ dim_reduction <-
 
   out_df <- bind_cols(df_list)
 
-  print(only_df)
   if (only_df) {
     out_df
   } else {
