@@ -14,9 +14,9 @@ dim_reduction <-
 
   if (transpose) { x <- t(x) }
 
-  output <- data_frame(row_num=1:nrow(x))
+  info <- data_frame(row_num=1:nrow(x))
   if (!is.null(rownames(x))) {
-    output[[id_col_name]] <- rownames(x)
+    info[[id_col_name]] <- rownames(x)
   }
 
   if (any(what == 'all')) {
@@ -46,7 +46,7 @@ dim_reduction <-
       ret <- Rtsne((1-cor(t(x)))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     } else if (method == 'tsne_abs_cor') {
-      ret <- Rtsne((abs(1-cor(t(x))))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
+      ret <- Rtsne((1-abs(cor(t(x))))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     }
 
@@ -55,7 +55,7 @@ dim_reduction <-
     coord_list[[method]] <- colnames(df)
   }
 
-  out_df <- bind_cols(df_list)
+  out_df <- bind_cols(info, df_list)
 
   if (only_df) {
     out_df
