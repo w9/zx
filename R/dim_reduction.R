@@ -16,7 +16,7 @@ dim_reduction <-
     output[[id_col_name]] <- rownames(x)
   }
 
-  if (what == 'all') {
+  if (any(what == 'all')) {
     what <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor')
   }
 
