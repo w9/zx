@@ -4,7 +4,7 @@
 dim_reduction <-
   function(x,
            what='all',
-					 zp=T,
+					 only_df=F,
            transpose=T,
            id_col_name='id') {
   title <- sprintf('DR of %s (%s)', deparse(substitute(x)), what)
@@ -43,7 +43,7 @@ dim_reduction <-
       ret <- Rtsne((1-cor(t(x)))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     } else if (method == 'tsne_abs_cor') {
-      ret <- Rtsne((abs(cor(t(x))))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
+      ret <- Rtsne((abs(1-cor(t(x))))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     }
 
@@ -54,10 +54,10 @@ dim_reduction <-
 
   out_df <- bind_cols(df_list)
 
-  if (zp) {
+  if (only_df) {
+    out_df
+  } else {
     zp(out_df) %>%
       zp_coords_(coord_list)
-  } else {
-    out_df
   }
 }
