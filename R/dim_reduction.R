@@ -6,8 +6,11 @@ dim_reduction <-
            what='all',
 					 only_df=F,
            transpose=T,
+           title=NULL,
            id_col_name='id') {
-  title <- sprintf('DR of %s (%s)', deparse(substitute(x)), what)
+  if (is.null(title)) {
+    title <- sprintf('DR of %s (%s)', deparse(substitute(x)), what)
+  }
 
   if (transpose) { x <- t(x) }
 
@@ -54,6 +57,7 @@ dim_reduction <-
 
   out_df <- bind_cols(df_list)
 
+  print(only_df)
   if (only_df) {
     out_df
   } else {
