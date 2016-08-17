@@ -52,6 +52,9 @@ dim_reduction <-
     } else if (method == 'isomap') {
       ret <- Isomap(x, 3)[[1]]
       df <- data_frame(ret[,1], ret[,2], ret[,3])
+      print(df)
+    } else {
+      stop(sprintf('ERROR: method "%s" is not recognized.', method))
     }
 
     colnames(df) <- paste0(method, 1:3)
