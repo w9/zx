@@ -1,5 +1,6 @@
 #' @import Rtsne
 #' @import dplyr
+#' @import RDRToolbox
 #' @export
 dim_reduction <-
   function(x,
@@ -9,7 +10,7 @@ dim_reduction <-
            title=NULL,
            id_col_name='id') {
   if (is.null(title)) {
-    title <- deparse(substitute(x)), what)
+    title <- deparse(substitute(x))
   }
 
   if (transpose) { x <- t(x) }
@@ -47,6 +48,9 @@ dim_reduction <-
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     } else if (method == 'tsne_abs_cor') {
       ret <- Rtsne((1-abs(cor(t(x))))^3, dims=3, is_distance=T, perplexity=min(30, floor((nrow(x)-1)/3)))$Y
+      df <- data_frame(ret[,1], ret[,2], ret[,3])
+    } else if (method == 'isomap') {
+      ret <- Isomap(t(x), 3)[[1]]
       df <- data_frame(ret[,1], ret[,2], ret[,3])
     }
 
