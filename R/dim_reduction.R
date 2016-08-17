@@ -9,7 +9,7 @@ dim_reduction <-
            title=NULL,
            id_col_name='id') {
   if (is.null(title)) {
-    title <- sprintf('DR of %s (%s)', deparse(substitute(x)), what)
+    title <- deparse(substitute(x)), what)
   }
 
   if (transpose) { x <- t(x) }
@@ -61,6 +61,7 @@ dim_reduction <-
     out_df
   } else {
     zp(out_df) %>%
+      zp_options(title = sprintf('%s - (%s)', title, what %>% str_join(', '))) %>%
       zp_coords_(coord_list)
   }
 }
