@@ -5,12 +5,11 @@ duplicated_rows <- function(df, ...) {
   cols <- dots(...) %>% as.character
   df %>%
     select_(cols) %>%
-    mutate(row_num=row_number()) %>%
-    group_by(everything()) %>%
-    mutate(n=n()) %>%
-    filter(n>1) %>%
-    arrange(cell_id, row_num)
-  df
+    mutate(row_num = row_number()) %>%
+    group_by_(cols) %>%
+    mutate(n = n()) %>%
+    filter(n > 1) %>%
+    arrange_(c(cols, 'row_num'))
 }
 
 #' @export

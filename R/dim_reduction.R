@@ -4,7 +4,7 @@
 #' @export
 dim_reduction <-
   function(x,
-           what='all',
+           what='default',
 					 only_df=F,
            transpose=T,
            title=NULL,
