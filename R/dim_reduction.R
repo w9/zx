@@ -67,7 +67,7 @@ dim_reduction <-
     out_df
   } else {
     zp(out_df) %>%
-      zp_options(title = sprintf('%s - (%s)', title, paset0(what, collapse=','))) %>%
+      zp_options(title = sprintf('%s - (%s)', title, paste0(what, collapse=','))) %>%
       zp_coords_(coord_list)
   }
 }
