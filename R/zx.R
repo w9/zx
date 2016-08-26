@@ -1,15 +1,24 @@
 #' @import dplyr
 #' @import pryr
+#' @import purrr
 #' @export
-duplicated_rows <- function(df, ...) {
+duplicated_rows <- function(df, ..., detailed=F) {
   cols <- dots(...) %>% as.character
-  df %>%
+  out <- df %>%
     select_(cols) %>%
     mutate(row_num = row_number()) %>%
     group_by_(cols) %>%
     mutate(n = n()) %>%
     filter(n > 1) %>%
     arrange_(c(cols, 'row_num'))
+
+  if (detailed) {
+    out
+  } else {
+    out %>%
+      by_slice(~.$row_num) %>%
+      .$.out
+  }
 }
 
 #' @export
