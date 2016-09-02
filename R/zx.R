@@ -166,7 +166,15 @@ get_slope <- function(x, y) lm(y ~ x, data.frame(x, y))$coefficients['x']
 
 #' @export
 rand_measure <- function(a, b) {
-  mean(apply(combn(1:length(b),2), 2, function(x)(b[x[1]]==b[x[2]])==(a[x[1]]==a[x[2]])))
+  n <- length(a)
+  
+  if (n != length(b)) stop('Error: length(a) != length(b)')
+  
+  s1 <- rep(2:n, 1:(n-1))
+  s2 <- 1:(n-1) %>% map(seq_len) %>% simplify
+  aa <- a[s1] == a[s2]
+  ba <- b[s1] == b[s2]
+  mean(aa == ba)
 }
 
 
