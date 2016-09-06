@@ -31,6 +31,9 @@ read_mat <- function(filename, format='auto', row_names=T, col_names=T, ...) {
 
 #' @export
 corner <- function(x, n=5, m=10) {
+  n <- min(n, nrow(x))
+  m <- min(m, nrow(x))
+  print(dim(x))
 	x[1:n, 1:m]
 }
 
