@@ -35,24 +35,18 @@ corner <- function(x, n=5, m=10) {
 }
 
 
+#' @import purrr
 #' @import dplyr
 #' @export
-row_sort <- function(x, by=NULL, decreasing=T) {
-	if (is.null(by)) {
-		x[apply(x, 1, mean) %>% sort(decreasing=decreasing) %>% names,]
-	} else {
-		x[x[,by] %>% order(decreasing=decreasing),]
-	}
+row_sort <- function(x, p=mean, decreasing=T) {
+  x[apply(x, 1, as_function(p)) %>% order(decreasing=decreasing),]
 }
 
+#' @import purrr
 #' @import dplyr
 #' @export
-col_sort <- function(x, by=NULL, decreasing=T) {
-	if (is.null(by)) {
-		x[, apply(x, 2, mean) %>% sort(decreasing=decreasing) %>% names]
-	} else {
-		x[, x[by,] %>% order(decreasing=decreasing)]
-	}
+col_sort <- function(x, p=mean, decreasing=T) {
+  x[, apply(x, 2, as_function(p)) %>% order(decreasing=decreasing)]
 }
 
 #' @import purrr
@@ -60,4 +54,11 @@ col_sort <- function(x, by=NULL, decreasing=T) {
 #' @export
 row_filter <- function(x, p) {
   x[apply(x, 1, as_function(p)),]
+}
+
+#' @import purrr
+#' @import dplyr
+#' @export
+col_filter <- function(x, p) {
+  x[, apply(x, 2, as_function(p))]
 }
