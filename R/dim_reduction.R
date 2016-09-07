@@ -20,8 +20,11 @@ dim_reduction <-
     info[[id_col_name]] <- rownames(x)
   }
 
-  what[what == 'all'] <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
-  what[what == 'default'] <- c('pca', 'tsne_cor')
+  if (any(what == 'default')) {
+    what <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
+  } else if (any(what == 'all')) {
+    what <- c('pca', 'tsne_cor')
+  }
 
   df_list <- list()
   coord_list <- list()
