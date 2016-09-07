@@ -21,9 +21,9 @@ dim_reduction <-
   }
 
   if (any(what == 'default')) {
-    what <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
-  } else if (any(what == 'all')) {
     what <- c('pca', 'tsne_cor')
+  } else if (any(what == 'all')) {
+    what <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
   }
 
   df_list <- list()
