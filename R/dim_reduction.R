@@ -26,7 +26,7 @@ dim_reduction <-
     what <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
   }
 
-  df_list <- list()
+  df_list <- list(data_frame(avg=apply(x, 1, mean)))
   coord_list <- list()
   for (method in what) {
     message(sprintf('* doing %s ... ', method))
@@ -71,6 +71,7 @@ dim_reduction <-
   } else {
     zp(out_df) %>%
       zp_options(title = sprintf('%s - (%s)', title, paste0(what, collapse=','))) %>%
-      zp_coords_(coord_list)
+      zp_coords_(coord_list) %>%
+      zp_colors_('avg')
   }
 }
