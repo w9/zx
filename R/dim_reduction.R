@@ -21,7 +21,7 @@ dim_reduction <-
   }
 
   what[what == 'all'] <- c('pca', 'pca_scale', 'mds_cor', 'tsne', 'tsne_cor', 'tsne_abs_cor', 'isomap')
-  what[what == 'default'] <- c('pca', 'mds_cor', 'tsne_cor', 'isomap')
+  what[what == 'default'] <- c('pca', 'tsne_cor')
 
   df_list <- list()
   coord_list <- list()
