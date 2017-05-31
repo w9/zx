@@ -9,4 +9,3 @@ get_order_from_consensus(consensus_mat)
 \description{
 Generate sample order from consensus matrix
 }
-

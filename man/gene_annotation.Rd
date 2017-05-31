@@ -10,4 +10,3 @@ gene_annotation(genes_, organism_, verbose_level_ = 1, markdown = T,
 \description{
 Anntate genes using NCBI gene summary
 }
-

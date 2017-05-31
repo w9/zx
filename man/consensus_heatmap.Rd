@@ -9,4 +9,3 @@ consensus_heatmap(consensus_mat, phe = NULL, sample_names = NULL)
 \description{
 Generate Consensus Heatmap
 }
-
