@@ -179,10 +179,10 @@ rand_measure <- function(a, b) {
 
 
 
+#' @import ggplot2
+#' @import FField
 #' @export
 pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
-  library(ggplot2)
-
   if (is.null(pr)) {
     if (is.null(rwl)) {
       if (is.null(rw)) stop('At least one of rw, rwl, or pr needs to be presented.')
@@ -205,7 +205,6 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   }
 
   if (labels) {
-    library(FField)
     jittered <- FFieldPtRep(cbind(pr$x[,1], pr$x[,2]))
     p <- p + geom_text(aes(x=jittered$x, y=jittered$y, label=n), alpha=0.2)
   }
@@ -215,12 +214,11 @@ pca <- function(pr=NULL, rwl=NULL, rw=NULL, phe=NULL, labels=F) {
   p
 }
 
+#' @import ggplot2
+#' @import reshape2
+#' @import dplyr
 #' @export
 vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, jitter_width=0.4) {
-  library(ggplot2)
-  library(reshape2)
-  library(dplyr)
-
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
     rwl <- log_trans(rw)
@@ -247,12 +245,11 @@ vj <- function(rwl=NULL, rw=NULL, phe=NULL, point_alpha=0.1, violin_alpha=0.4, j
 }
 
 
+#' @import ggplot2
+#' @import reshape2
+#' @import dplyr
 #' @export
 smoothDensity <- function(rwl=NULL, rw=NULL) {
-  library(ggplot2)
-  library(reshape2)
-  library(dplyr)
-
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
     rwl <- log_trans(rw)
@@ -266,12 +263,11 @@ smoothDensity <- function(rwl=NULL, rw=NULL) {
 }
 
 
+#' @import ggplot2
+#' @import reshape2
+#' @import dplyr
 #' @export
 zero_percentage_distribution <- function(rw=NULL, jitter_width=0.05) {
-  library(ggplot2)
-  library(reshape2)
-  library(dplyr)
-
   ggdat <- melt(data.matrix(rw), varnames=c('gene', 'sample')) %>%
     group_by(sample) %>%
     summarize(pct_zero=mean(value==0))
@@ -281,14 +277,11 @@ zero_percentage_distribution <- function(rw=NULL, jitter_width=0.05) {
     geom_violin(aes(x=1, y=pct_zero), alpha=0.5)
 }
 
-########## PACKAGES ##########
 
 
-
+#' @import NMF
 #' @export
 nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options="p32v3", seed=12345) {
-  library(NMF)
-
   if (is.null(rwl)) {
     if (is.null(rw)) stop('At least one of rw or rwl needs to be presented.')
     rwl <- log_trans(rw)
@@ -297,10 +290,9 @@ nmf_ <- function(rwl=NULL, rw=NULL, rank=2:5, nrun=30, method="brunet", .options
   nmf(rwl, rank=rank, nrun=nrun, method=method, .options=.options, seed=seed)
 }
 
+#' @import edgeR
 #' @export
 edgeR_ <- function(rw, phe) {
-  library(edgeR)
-
   cds <- DGEList(rw, group=phe)
   cds <- cds[rowSums(1e+06 * cds$counts/expandAsMatrix(cds$samples$lib.size, dim(cds)) > 1) >= 3, ]
   cds <- calcNormFactors( cds )
@@ -315,10 +307,9 @@ bioc <- function(pkg) {
   biocLite(pkg)
 }
 
+#' @import org.Hs.eg.db
 #' @export
 ensembl_to_symbol <- function(e) {
-  library(org.Hs.eg.db)
-
   res <- rep_along(e, NA)
   ei <- (e %in% mappedkeys(org.Hs.egENSEMBL2EG)) %>% which
   ef <- e[ei]
